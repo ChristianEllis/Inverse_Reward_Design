@@ -346,7 +346,7 @@ def bar_graph_qsize(exps, x_var, dependent_vars, independent_vars, controls, oth
         handles2, labels2 = zip(*hl)
     except ValueError:
         handles2, labels2 = [], []
-        print Warning('Warning: Possibly data only exists for one environment')
+        print(Warning('Warning: Possibly data only exists for one environment'))
 
     # ax.legend(handles2, labels2, fontsize=10)
     plt.legend(handles2, labels2, fontsize=13)
@@ -458,7 +458,7 @@ def graph(exps, x_var, dependent_vars, independent_vars, controls,
         handles2, labels2 = zip(*hl)
     except ValueError:
         handles2, labels2 = [], []
-        print Warning('Warning: Possibly data only exists for one environment')
+        print(Warning('Warning: Possibly data only exists for one environment'))
 
     # ax.legend(handles2, labels2, fontsize=10)
     plt.legend(handles2, labels2, fontsize=13)

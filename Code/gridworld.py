@@ -521,7 +521,7 @@ class GridworldMdp(Mdp):
                 for place in row:
                     place = str(place)
                     row_new.append(place)
-                print str(row_new)
+                print(str(row_new))
         return grid, goals
 
     def get_start_state(self):

@@ -80,7 +80,7 @@ def run(chooser, qsize, mdp_type, num_iter, objective='entropy', discretization_
                '--num_obj_if_repeated', num_obj_if_repeated,
                '--decorrelate_test_feat', decorrelate_test_feat
                ]
-    print 'Running command', ' '.join(command)
+    print('Running command', ' '.join(command))
     call(command)
 
 
