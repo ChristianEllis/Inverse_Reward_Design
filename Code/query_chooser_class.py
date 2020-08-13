@@ -36,9 +36,9 @@ class Query_Chooser(object):
         self.t_0 = t_0
         self.model_cache = {}
 
-        config = tf.ConfigProto()
+        config = tf.compat.v1.ConfigProto()
         config.gpu_options.allow_growth = True
-        self.sess = tf.Session(config=config)
+        self.sess = tf.compat.v1.Session(config=config)
 
 
     def cache_feature_expectations(self, reward_space=None):
@@ -779,7 +779,7 @@ class Experiment(object):
         """Writes a CSV for every chooser for every experiment. The CSV's columns are 'iteration' and all measures in
         self.measures."""
         if not os.path.exists('data/'+self.folder_name):
-            os.mkdir('data/'+self.folder_name)
+            os.makedirs('data/'+self.folder_name)
         else:
             Warning('Existing experiment stats overwritten')
         for chooser in self.choosers:
@@ -809,7 +809,7 @@ class Experiment(object):
         Saves in the same folder as CSVs per experiment. Columns are 'iteration' and all measures in
         self.measures + self.cum_measures + ['time', 'time_query_chooser']."""
         if not os.path.exists('data/' + self.folder_name):
-            os.mkdir('data/' + self.folder_name)
+            os.makedirs('data/' + self.folder_name)
         else:
             Warning('Existing experiment stats overwritten')
 

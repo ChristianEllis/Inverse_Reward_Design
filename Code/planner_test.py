@@ -16,7 +16,7 @@ class TestPlanner(unittest.TestCase):
 
     def test_gridworld_planner(self):
         def check_model_equivalent(model, query, weights, mdp, num_iters):
-            with tf.Session() as sess:
+            with tf.compat.v1.Session() as sess:
                 sess.run(model.initialize_op)
                 (qvals,) = model.compute(
                     ['q_values'], sess, mdp, query, weight_inits=weights)
@@ -58,7 +58,7 @@ class TestPlanner(unittest.TestCase):
 
     def test_bandits_planner(self):
         def check_model_equivalent(model, query, weights, mdp, num_iters):
-            with tf.Session() as sess:
+            with tf.compat.v1.Session() as sess:
                 sess.run(model.initialize_op)
                 (qvals,) = model.compute(['q_values'], sess, mdp, query, weight_inits=weights)
 

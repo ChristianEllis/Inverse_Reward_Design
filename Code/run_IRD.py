@@ -38,7 +38,7 @@ if __name__=='__main__':
     parser.add_argument('--exp_name',type=str,default='no_exp_name')
     parser.add_argument('--query_size',type=int,default=3)
     parser.add_argument('--num_experiments',type=int,default=2)
-    parser.add_argument('--num_iter',type=int,default=20)    # number of queries asked
+    parser.add_argument('--num_iter',type=int,default=2)    # number of queries asked
     parser.add_argument('--gamma',type=float,default=1.) # discount
     parser.add_argument('--size_true_space',type=int,default=1000000)
     parser.add_argument('--size_proxy_space',type=int,default=100)  # Sample subspace for exhaustive
@@ -96,7 +96,7 @@ if __name__=='__main__':
     SEED = args.seed
     seed(SEED)
     np.random.seed(SEED)
-    tf.set_random_seed(SEED)
+    tf.random.set_seed(SEED)
     beta = args.beta
     num_states = args.num_states
     size_reward_space_true = args.size_true_space
