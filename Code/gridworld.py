@@ -1,10 +1,12 @@
-from collections import defaultdict
-from disjoint_sets import DisjointSets
-import numpy as np
+# External Libs
 import random
-import itertools 
+import itertools
+from collections import defaultdict
+import numpy as np
 from scipy.stats import invwishart, multivariate_normal
 
+# Internal Libs
+from disjoint_sets import DisjointSets
 ########################################################
 class Mdp(object):
     def __init__(self):
