@@ -40,7 +40,6 @@ class Query_Chooser(object):
         config.gpu_options.allow_growth = True
         self.sess = tf.compat.v1.Session(config=config)
 
-
     def cache_feature_expectations(self, reward_space=None):
         """Computes feature expectations for each proxy using TF and stores them in
         inference.feature_expectations_matrix."""
@@ -64,7 +63,6 @@ class Query_Chooser(object):
         if use_proxy_space:
             self.inference.feature_exp_matrix = feature_exp_matrix
         return feature_exp_matrix
-
 
     # @profile
     def find_query(self, query_size, chooser, true_reward):
@@ -132,7 +130,6 @@ class Query_Chooser(object):
         else:
             raise NotImplementedError('Calling unimplemented query chooser: '+str(chooser))
 
-
     def find_discrete_query(
             self, query_size, measure, true_reward, growth_rate=None,
             full_query=False, random_query=False, exhaustive_query=False):
@@ -180,7 +177,6 @@ class Query_Chooser(object):
         print('Best objective found with a discrete query: ' + str(best_objective[0][0]))
         return None, best_objective[0][0], true_log_posterior, true_entropy[0], post_avg, time_last_query_found
 
-
     def build_discrete_query(self, query_size, measure, growth_rate, extend_fn, exhaustive_query=False):
         """Builds a discrete query by starting from the empty query and calling
         extend_fn to add growth_rate rewards to it until it reaches query_size
@@ -200,10 +196,6 @@ class Query_Chooser(object):
             #     exhaustive = True
             best_query, _ = extend_fn(best_query, size_increase, measure, exhaustive_query)
         return best_query
-
-
-
-
 
     def extend_with_discretization(self, curr_query, num_to_add, measure, exhaustive_query):
         best_objective, best_query = float("inf"), None
@@ -273,8 +265,6 @@ class Query_Chooser(object):
         # TODO(sorenmind): return true_entropy objective
         print('Objective for size {s}: '.format(s=len(query)) + str(objective[0][0]))
         return query, objective[0][0]
-
-
 
     def find_next_feature(self, curr_query, curr_weights, measure, max_query_size):
         mdp = self.inference.mdp
@@ -378,8 +368,6 @@ class Query_Chooser(object):
 
         return best_query, best_optimal_weights, best_feature_exps
 
-
-
     # @profile
     def find_feature_query_greedy(self, query_size, measure, true_reward, random_query=False):
         """Returns feature query of size query_size that minimizes the objective (e.g. posterior entropy)."""
@@ -415,7 +403,6 @@ class Query_Chooser(object):
 
         return best_query, objective[0][0], true_log_posterior, true_entropy[0], post_avg, time_last_query_found
 
-
     def add_random_feature(self, curr_query, measure):
         """Same as self.find_next_feature, except the added feature is not optimized, i.e. random."""
         mdp = self.inference.mdp
@@ -437,8 +424,6 @@ class Query_Chooser(object):
             true_reward_matrix=true_reward_matrix)
 
         return query, weights, feature_exps
-
-
 
     def random_search(self, desired_outputs, query, num_search, model, log_prior, mdp, true_reward_matrix):
         """Returns the objective, weights, and feature expectations that minimized the objective in a random search."""
@@ -474,8 +459,6 @@ class Query_Chooser(object):
         # list(product(f_range, repeat=query_size))
         return other_weights
 
-
-
     def sample_weights(self, search_or_init, num_fixed):
         if search_or_init == 'search':
             if self.args.weights_dist_search == 'normal':
@@ -503,12 +486,10 @@ class Query_Chooser(object):
 
         return weights
 
-
     def set_inference(self, inference, cache_feature_exps):
         self.inference = inference
         if cache_feature_exps:
             self.cache_feature_expectations()
-
 
     def generate_set_of_queries(self, query_size, num_queries_max=None):
         if num_queries_max == None:
@@ -518,7 +499,6 @@ class Query_Chooser(object):
         if num_queries > num_queries_max:
             return [list(random_combination(self.inference.reward_space_proxy, query_size)) for _ in range(num_queries_max)]
         return [list(x) for x in combinations(self.inference.reward_space_proxy, query_size)]
-
 
     def get_true_reward_space(self, no_subsampling=False):
         if self.args.subsampling and not no_subsampling:
@@ -530,7 +510,6 @@ class Query_Chooser(object):
             true_reward_matrix = self.inference.true_reward_matrix
             log_prior = self.inference.log_prior
         return true_reward_matrix, log_prior
-
 
     def sample_true_reward_matrix(self, uniform_sampling=False):
         num_subsamples = self.args.num_subsamples
@@ -553,7 +532,6 @@ class Query_Chooser(object):
         else:
             unif_log_prior = np.log(np.ones(num_subsamples) / num_subsamples)
             return self.inference.true_reward_matrix[choices], unif_log_prior
-
 
     def get_model(self, query_size, objective, num_unknown=None,
                   discrete=True, optimize=False, no_planning=False, cache=True, rational_planner=False,
@@ -626,7 +604,6 @@ class Experiment(object):
         self.test_inferences = test_inferences
         self.true_rewards = true_rewards
         self.prior_avg = prior_avg
-
 
     # @profile
     def get_experiment_stats(self, num_iter, num_experiments):
@@ -704,7 +681,6 @@ class Experiment(object):
                     = true_entropy, perf_measure, post_regret, test_regret, norm_to_true, query, duration_iter, duration_query_chooser, \
                         std_proxy, mean_proxy, std_goal, mean_goal
 
-
     def get_posterior_variance(self, inference):
         """Gets posterior mean and std for last and 2nd last feature by sampling."""
         args = self.query_chooser.args
@@ -725,7 +701,6 @@ class Experiment(object):
         proxy_idx = feature_dim-2
         goal_idx = feature_dim-1
         return std[proxy_idx], means[proxy_idx], std[goal_idx], means[goal_idx]
-
 
     def compute_regret(self, post_avg, true_reward, inference=None):
         """Computes mean regret from optimizing post_avg across some cached test environments.
@@ -774,7 +749,6 @@ class Experiment(object):
 
         return np.linalg.norm(norm_post_avg - norm_true)
 
-
     def write_experiment_results_to_csv(self, exp_num, num_iter):
         """Writes a CSV for every chooser for every experiment. The CSV's columns are 'iteration' and all measures in
         self.measures."""
@@ -802,7 +776,6 @@ class Experiment(object):
                         csvdict['cum_post_regret'] = cum_post_regret
                 rows.append(csvdict)
             writer.writerows(rows)
-
 
     def write_mean_and_median_results_to_csv(self, num_experiments, num_iter):
         """Writes a CSV for every chooser averaged (and median-ed, standard-error-ed) across experiments.
